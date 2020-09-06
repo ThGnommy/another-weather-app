@@ -1,0 +1,16 @@
+body {
+  text-align: center;
+}
+
+#api-container {
+  display: none;
+}
+
+#citynotfound {
+  display: none;
+}
+
+img {
+  height: 200px;
+  width: 200px;
+}
