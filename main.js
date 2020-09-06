@@ -1,31 +1,12 @@
+import {
+  showContainer,
+  showDangerText,
+  hideDangerText,
+  hiddenContainer,
+  capitalize,
+} from "./utility";
+
 const API_KEY = process.env.API_KEY;
-
-const apiContainer = document.querySelectorAll("#api-container");
-const cityNotFound = document.getElementById("citynotfound");
-
-const showDangerText = () => {
-  cityNotFound.style.display = "flex";
-};
-
-const hideDangerText = () => {
-  cityNotFound.style.display = "none";
-};
-
-const hiddenContainer = () => {
-  apiContainer.forEach((element) => {
-    element.style.display = "none";
-  });
-};
-
-const showContainer = () => {
-  apiContainer.forEach((element) => {
-    element.style.display = "flex";
-  });
-};
-
-const capitalize = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
 
 const input = document.querySelector("input");
 const button = document.querySelector("button");
