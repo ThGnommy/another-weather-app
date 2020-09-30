@@ -7,7 +7,7 @@ import {
   checkIfUndefined,
 } from "./utility";
 
-const API_KEY = proce.env.API_KEY;
+const API_KEY = process.env.API_KEY;
 
 const input = document.querySelector("input");
 const button = document.querySelector("button");
