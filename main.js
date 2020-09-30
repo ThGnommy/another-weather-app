@@ -5,6 +5,7 @@ import {
   hiddenContainer,
   capitalize,
   checkIfUndefined,
+  alertAnimation,
 } from "./utility";
 
 const API_KEY = process.env.API_KEY;
@@ -25,10 +26,6 @@ const updateData = (city, desc, tmp, h, ws, img) => {
   humidity.innerHTML = h.toFixed(0);
   windSpeed.innerHTML = ws.toFixed(0);
   iconCondition.src = img;
-};
-
-const geo_handleError = () => {
-  alert("Unable to access your location");
 };
 
 const geolocalization = () => {
@@ -67,7 +64,7 @@ const geolocalization = () => {
             )
           );
         });
-    }, geo_handleError);
+    }, alertAnimation);
   } else {
     return;
   }
