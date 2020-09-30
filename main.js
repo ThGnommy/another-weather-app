@@ -4,9 +4,10 @@ import {
   hideDangerText,
   hiddenContainer,
   capitalize,
+  checkIfUndefined,
 } from "./utility";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = "e77e371119128eced86dbdfa34b7dd85";
 
 const input = document.querySelector("input");
 const button = document.querySelector("button");
@@ -25,6 +26,48 @@ const updateData = (city, desc, tmp, h, ws, img) => {
   humidity.innerHTML = h.toFixed(0);
   windSpeed.innerHTML = ws.toFixed(0);
   iconCondition.src = img;
+};
+
+const geolocalization = () => {
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      )
+        .then((res) => {
+          if (res.ok) {
+            showContainer();
+          } else {
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          updateData(
+            capitalize(
+              `${checkIfUndefined(data.name, "Not found")}, ${checkIfUndefined(
+                data.sys.country,
+                "Not found"
+              )}`
+            ),
+            capitalize(
+              checkIfUndefined(data.weather[0].description, "Not found")
+            ),
+            checkIfUndefined(data.main.temp, "Not found"),
+            checkIfUndefined(data.main.humidity, "Not found"),
+            checkIfUndefined(data.wind.speed, "Not found"),
+            checkIfUndefined(
+              `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+              "Not found"
+            )
+          );
+        });
+    });
+  } else {
+    console.log("no geolocal");
+  }
 };
 
 const fetchData = () => {
@@ -48,12 +91,20 @@ const fetchData = () => {
     })
     .then((data) => {
       updateData(
-        capitalize(`${data.name}, ${data.sys.country}`),
-        capitalize(data.weather[0].description),
-        data.main.temp,
-        data.main.humidity,
-        data.wind.speed,
-        `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+        capitalize(
+          `${checkIfUndefined(data.name, "Not found")}, ${checkIfUndefined(
+            data.sys.country,
+            "Not found"
+          )}`
+        ),
+        capitalize(checkIfUndefined(data.weather[0].description, "Not found")),
+        checkIfUndefined(data.main.temp, "Not found"),
+        checkIfUndefined(data.main.humidity, "Not found"),
+        checkIfUndefined(data.wind.speed, "Not found"),
+        checkIfUndefined(
+          `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+          "Not found"
+        )
       );
     })
     .catch((error) => {
@@ -62,3 +113,5 @@ const fetchData = () => {
 };
 
 button.addEventListener("click", fetchData);
+
+geolocalization();

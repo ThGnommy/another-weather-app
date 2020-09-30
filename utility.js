@@ -24,3 +24,11 @@ export const showContainer = () => {
 export const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const checkIfUndefined = (value, string) => {
+  if (typeof value === "undefined") {
+    return string;
+  } else {
+    return value;
+  }
+};
