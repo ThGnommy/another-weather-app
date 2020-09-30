@@ -11,7 +11,6 @@ const API_KEY = process.env.API_KEY;
 
 const input = document.querySelector("input");
 const button = document.querySelector("button");
-
 let currentCity = document.getElementById("city");
 let description = document.getElementById("weather-description");
 let temp = document.getElementById("temp");
@@ -26,6 +25,10 @@ const updateData = (city, desc, tmp, h, ws, img) => {
   humidity.innerHTML = h.toFixed(0);
   windSpeed.innerHTML = ws.toFixed(0);
   iconCondition.src = img;
+};
+
+const geo_handleError = () => {
+  alert("Unable to access your location");
 };
 
 const geolocalization = () => {
@@ -64,9 +67,9 @@ const geolocalization = () => {
             )
           );
         });
-    });
+    }, geo_handleError);
   } else {
-    console.log("no geolocal");
+    return;
   }
 };
 
